@@ -40,6 +40,21 @@ class Rainet:
     print('enemy info -> virus ate:', self.enemy.virus_ate, 'link ate:', self.enemy.link_ate, 
           'lb pos:', self.enemy.lb_pos, 'fw pos:', self.enemy.fw_pos)
     
+  def update_piece_pos(self, old, new):
+    selected_piece = self.select_piece_info(old)
+    selected_type = selected_piece['type']
+    which = selected_piece['no']
+    
+    if selected_type == 'virus':
+      if self.current_player.virus[which]['lb'] == True:
+        self.current_player.lb_pos = new
+      self.current_player.virus[which]['pos'] = new
+    elif selected_type == 'link':
+      if self.current_player.link[which]['lb'] == True:
+        self.current_player.lb_pos = new
+      self.current_player.link[which]['pos'] = new
+      
+    
   def select_piece_info(self, place):
     piece = None
     for v in range(4):
@@ -94,12 +109,12 @@ class Rainet:
       self.current_player.lb_pos = None
       self.current_player.lb_no = 0
     
-  def use_fw(self, place, time):
+  def use_fw(self, place):
     fw_no = self.current_player.fw_no
-    if fw_no == 0:
+    if place is not None and fw_no == 0:
       self.current_player.fw_pos = place
     elif fw_no == 1:
-      self.current_player.fw_pos = [None]
+      self.current_player.fw_pos = None
       self.current_player.fw_no = 0
 
   def use_vc(self):
@@ -139,14 +154,23 @@ class Rainet:
             which_lb = input()
             if which_lb in friend_pieces:
               self.use_lb(which_lb)
-              print(self.select_piece_info(which_lb))
+              # print(self.select_piece_info(which_lb))
               self.current_player.skills_used = True
           else:
             self.use_lb(None)
             print('removed lb')
+            self.current_player.skills_used = True
         elif skill == self.current_player.skills[1]:  # fw
-          self.current_player.skills_used = True
-          pass
+          if self.current_player.fw_no == 0:
+            print('Which piece you want to install fw?', end=' ')
+            where = input()
+            if where not in Board().EXIT_POS and where not in Board().BOUNDARY_POS:
+              self.use_fw(where)
+              self.current_player.skills_used = True
+          else:
+            self.use_fw(None)
+            print('removed fw')
+            self.current_player.skills_used = True
         elif skill == self.current_player.skills[2]:  # vc
           self.current_player.skills_used = True
           pass
@@ -164,6 +188,9 @@ class Rainet:
       
       # move piece
       while self.current_player.skills_used == False or (use != 'y' or use != 'Y'):
+        # reset所有路径
+        if len(Game().all_paths) != 0:
+          Game().all_paths.clear()
         # select piece
         print('Which piece you want to move?', end=" ")
         position = input()
@@ -179,13 +206,17 @@ class Rainet:
           Game().dfs(position, FW_place, friend_pieces, enemy_pieces, step)
           
           start_position = position
-          print('where you want to move?', end=" ")
+          # for path in Game().all_paths:
+          #   print(path)
+          print('where you want to move?', end=' ')
+          print(Game().all_paths)
           end_position = input()
 
           valid_move = Game().is_start_and_end_in_paths(start_position, end_position, Game().all_paths)
           # print(valid_move)
           if valid_move == True:
             Game().move_piece(start_position, end_position)
+            self.update_piece_pos(start_position, end_position)
             self.switch_player()
             self.print_game_info()
             break
