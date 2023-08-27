@@ -1,4 +1,7 @@
-class Board():
+class Board:
+  file_to_col = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}                          # x
+  rank_to_row = {'9': 0, '8' : 1, '7' : 2, '6' : 3, '5' : 4, '4' : 5, '3' : 6, '2' : 7, '1' : 8, '0' : 9} # y
+  
   XY = [
     ['a9', 'b9', 'c9', 'd9', 'e9', 'f9', 'g9', 'h9'],
     ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8'],
@@ -57,7 +60,15 @@ class Board():
       self.update_board(i, 'X')
     for i in self.BOUNDARY_POS:
       self.update_board(i, '$')
-    
+  
+  def convert_xy_to_alg(self, x, y):
+    alg = self.XY[y][x]
+    return alg
+
+  def convert_alg_to_xy(self, where):
+    col, row = where[0], where[1]
+    x, y = self.file_to_col[col], self.rank_to_row[row]
+    return x, y
   
   def update_board(self, pos, change):
     self.god_board[pos] = change
