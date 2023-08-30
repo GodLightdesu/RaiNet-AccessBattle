@@ -14,6 +14,7 @@ class Blue:
     self._404_no = 0
     self.lb_pos = None
     self.fw_pos = None
+    self.checked_piece = None
     self.skills_used = False
     # piece init
     self.real_init = real_init
@@ -48,9 +49,9 @@ class Blue:
       piece = self.virus[v]['pos']
       Board().god_board[piece] = self.virus[v]['name']
       Board().blue_board[piece] = self.virus[v]['name']
-      Board().yellow_board[piece] = '?'
+      Board.yellow_board[piece] = '?'
     for l in range(4):
       piece = self.link[l]['pos']
       Board().god_board[piece] = self.link[l]['name']
       Board().blue_board[piece] = self.link[l]['name']
-      Board().yellow_board[piece] = '?'
+      Board.yellow_board[piece] = '?'

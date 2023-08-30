@@ -14,6 +14,7 @@ class Yellow:
     self._404_no = 0
     self.lb_pos = None
     self.fw_pos = None
+    self.checked_piece = None
     self.skills_used = False
     # piece init
     self.real_init = real_init
