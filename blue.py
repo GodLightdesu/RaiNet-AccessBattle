@@ -1,18 +1,17 @@
+from re import L
 from board import Board
 
 class Blue:
+  
   def __init__(self, real_init):
-    # self information
+    # self info
     self.name = "Blue"
     self.link_ate = 0
     self.virus_ate = 0
-    # skills
+    self.EXIT_POS = ['d9', 'e9']
+    # skills info
     self.skills = ['lb', 'fw', 'vc', '404']
     self.skills_used = {'lb': False, 'fw': False, 'vc': False, '404': False}
-    self.lb_no = 0
-    self.fw_no = 0
-    self.vc_no = 0
-    self._404_no = 0
     self.lb_pos = None
     self.fw_pos = None
     self.checked_piece = None
@@ -23,7 +22,7 @@ class Blue:
     self.link_name = 'L'
     self.unkown = '?'
     self.real_init = real_init
-    # pieces
+    
     self.piece = [{'no' : 0, 'name': self.unkown, 'pos': self.pos_init[0], 'lb': False, 'known': False},
                   {'no' : 1, 'name': self.unkown, 'pos': self.pos_init[1], 'lb': False, 'known': False},
                   {'no' : 2, 'name': self.unkown, 'pos': self.pos_init[2], 'lb': False, 'known': False},
@@ -32,7 +31,6 @@ class Blue:
                   {'no' : 5, 'name': self.unkown, 'pos': self.pos_init[5], 'lb': False, 'known': False},
                   {'no' : 6, 'name': self.unkown, 'pos': self.pos_init[6], 'lb': False, 'known': False},
                   {'no' : 7, 'name': self.unkown, 'pos': self.pos_init[7], 'lb': False, 'known': False}]
-    
     self.init_dict = dict(zip(self.pos_init, self.real_init))
     # print(self.init_dict, len(self.init_dict))
     which = 0

@@ -1,18 +1,17 @@
 from board import Board
 
 class Yellow:
+  board = {}
+  
   def __init__(self, real_init):
-    # self information
+    # self info
     self.name = "Yellow"
     self.link_ate = 0
     self.virus_ate = 0
-    # skills
+    self.EXIT_POS = ['d0', 'e0']
+    # skills info
     self.skills = ['lb', 'fw', 'vc', '404']
     self.skills_used = {'lb': False, 'fw': False, 'vc': False, '404': False}
-    self.lb_no = 0
-    self.fw_no = 0
-    self.vc_no = 0
-    self._404_no = 0
     self.lb_pos = None
     self.fw_pos = None
     self.checked_piece = None
@@ -23,7 +22,7 @@ class Yellow:
     self.link_name = 'l'
     self.unkown = '?'
     self.real_init = real_init
-    # pieces
+    
     self.piece = [{'no' : 0, 'name': self.unkown, 'pos': self.pos_init[0], 'lb': False, 'known': False},
                   {'no' : 1, 'name': self.unkown, 'pos': self.pos_init[1], 'lb': False, 'known': False},
                   {'no' : 2, 'name': self.unkown, 'pos': self.pos_init[2], 'lb': False, 'known': False},

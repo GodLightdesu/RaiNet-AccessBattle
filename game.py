@@ -22,12 +22,9 @@ class Game:
     # select the piece
     piece = self.select_piece(start_square)
     # move piece
-    Board().update_board(start_square, '-')
+    Board().update_all_board(start_square, '-')
     for i in range(3):
-      Board().update_board(end_square, piece[i])
-      
-  def check_blocked(self):
-    pass
+      Board().update_all_board(end_square, piece[i])
       
   def is_valid_move(self, position, FW_place, friend_pieces, enemy_pieces):
     # 检查移动是否在棋盘范围内

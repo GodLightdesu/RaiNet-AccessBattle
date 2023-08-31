@@ -1,11 +1,7 @@
-from multiprocessing.dummy import current_process
-import select
-from turtle import position
 from board import Board
 from game import Game
 from blue import Blue
 from yellow import Yellow
-
 
 # game logic
 class Rainet:
@@ -137,8 +133,8 @@ class Rainet:
     # print(self.current_player.piece[which1]['pos'], self.current_player.piece[which2]['pos'])
     self.current_player.piece[which1]['pos'], self.current_player.piece[which2]['pos'] = self.current_player.piece[which2]['pos'], self.current_player.piece[which1]['pos']
     # print(self.current_player.piece[which1]['pos'], self.current_player.piece[which2]['pos'])
-    Board().update_board(self.current_player.piece[which1]['pos'], self.current_player.piece[which1]['name'])
-    Board().update_board(self.current_player.piece[which2]['pos'], self.current_player.piece[which2]['name'])
+    Board().update_all_board(self.current_player.piece[which1]['pos'], self.current_player.piece[which1]['name'])
+    Board().update_all_board(self.current_player.piece[which2]['pos'], self.current_player.piece[which2]['name'])
     if self.current_player.name == 'Blue':
       Board().yellow_board[piece1] = '?'
       Board().yellow_board[piece2] = '?'
@@ -267,6 +263,13 @@ class Rainet:
           valid_move = Game().is_start_and_end_in_paths(start_position, end_position, Game().all_paths)
           # print(valid_move)
           if valid_move == True:
+            if end_position in enemy_pieces:
+              end_piece = self.select_enemy_piece_info(end_position)
+              if end_piece['name'] == self.enemy.virus_name:
+                self.current_player.virus_ate += 1
+              elif end_piece['name'] == self.enemy.link_name:
+                self.current_player.link_ate += 1
+          
             Game().move_piece(start_position, end_position)
             self.update_piece_pos(start_position, end_position)
             self.switch_player()
