@@ -15,20 +15,23 @@ class Board:
     ['a0', 'b0', 'c0', 'd0', 'e0', 'f0', 'g0', 'h0']
   ]
   EXIT_POS = ['d0', 'e0', 'd9', 'e9']
+  # which human or ai can't enter (own exit)
+  human_exit = ['d0', 'e0']
+  ai_exit = ['d9', 'e9']
   BOUNDARY_POS = ['a0', 'b0', 'c0', 'f0', 'g0', 'h0', 'a9', 'b9', 'c9', 'f9', 'g9', 'h9']
   # create boards
   god_board = {}
-  blue_board = {}
-  yellow_board = {}
+  human_board = {}
+  ai_board = {}
 
   for i in range(len(XY)):
     for j in range(len(XY[i])):
       god_board[XY[i][j]] = '-'
-      blue_board[XY[i][j]] = '-'
+      human_board[XY[i][j]] = '-'
   
   for i in reversed(range(len(XY))):
     for j in reversed(range(len(XY[i]))):
-      yellow_board[XY[i][j]] = '-'
+      ai_board[XY[i][j]] = '-'
       
   def __init__(self):
     for i in self.EXIT_POS:
@@ -47,8 +50,8 @@ class Board:
   
   def update_all_board(self, pos, change):
     self.god_board[pos] = change
-    self.blue_board[pos] = change
-    self.yellow_board[pos] = change
+    self.human_board[pos] = change
+    self.ai_board[pos] = change
       
   def print_god_board(self):
     for i in range(len(self.XY)):
@@ -58,19 +61,19 @@ class Board:
       print()
     print("  a b c d e f g h")
   
-  def print_blue_board(self):
+  def print_human_board(self):
     for i in range(len(self.XY)):
       print(9 - i, end=" ")
       for j in self.XY[i]:
-        print(self.blue_board[j], end=" ")
+        print(self.human_board[j], end=" ")
       print()
     print("  a b c d e f g h")
 
-  def print_yellow_board(self):
+  def print_ai_board(self):
     for i in list(reversed((range(len(self.XY))))):
       print(9 - i, end=" ")
       for j in reversed(self.XY[i]):
-        print(self.yellow_board[j], end=" ")
+        print(self.ai_board[j], end=" ")
         # print(j, end=" ")
       print()
     print("  h g f e d c b a")
@@ -81,9 +84,9 @@ class Board:
     print('god view')
     self.print_god_board()
     print('--------------------------------------')
-    print('blue view')
-    self.print_blue_board()
+    print('human view')
+    self.print_human_board()
     print('--------------------------------------')
-    print('yellow view')
-    self.print_yellow_board()
+    print('ai view')
+    self.print_ai_board()
     print('--------------------------------------')

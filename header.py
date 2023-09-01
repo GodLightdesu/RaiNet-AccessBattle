@@ -1,5 +1,5 @@
-from blue import Blue
-from yellow import Yellow
+from human import Blue
+from ai import Yellow
 from board import Board
 from game import Game
 
